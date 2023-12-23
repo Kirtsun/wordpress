@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  nginx:
+    container_name: nginx_wp
+    image: nginx:1.25
+    ports:
+      - "192.168.4.196:80:80"
+    networks:
+      - nginx_net
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/.htpasswd:/etc/nginx/.htpasswd
+      - wordpress:/var/www/html
+    depends_on:
+      - wordpress
+
+  wordpress:
+    container_name: wordpress
+    image: wordpress:php8.1-fpm
+    networks:
+      - nginx_net
+    env_file:
+      - .env
+    environment:
+      - WORDPRESS_DB_HOST = ${WORDPRESS_DB_HOST}
+      - WORDPRESS_DB_USER = ${WORDPRESS_DB_USER}
+      - WORDPRESS_DB_PASSWORD = ${WORDPRESS_DB_PASSWORD}
+      - WORDPRESS_DB_NAME = ${WORDPRESS_DB_NAME}
+    volumes:
+      - wordpress:/var/www/html
+    depends_on:
+      - database
+
+  database:
+    container_name: database
+    image: mysql:8.0
+    env_file:
+      - .env
+    expose:
+      - "3306"
+    networks:
+      - nginx_net
+    environment:
+      - MYSQL_DATABASE = ${MYSQL_DATABASE}
+      - MYSQL_USER = ${MYSQL_USER}
+      - MYSQL_PASSWORD = ${MYSQL_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD = ${MYSQL_PASSWORD}
+    volumes:
+      - database:/var/lib/mysql
+
+
+
+networks:
+  nginx_net:
+
+volumes:
+  database:
+  wordpress:
+
