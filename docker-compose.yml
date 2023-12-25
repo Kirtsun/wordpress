@@ -4,8 +4,10 @@ services:
   nginx:
     container_name: nginx_wp
     image: nginx:1.25
+    env_file:
+      - .env
     ports:
-      - "192.168.4.196:80:80"
+      - "${IP}80:80"
     networks:
       - nginx_net
     volumes:
