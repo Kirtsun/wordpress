@@ -7,7 +7,7 @@ services:
     env_file:
       - .env
     ports:
-      - "${IP}80:80"
+      - "${IP}:80:80"
     networks:
       - nginx_net
     volumes:
