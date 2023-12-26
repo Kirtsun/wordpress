@@ -13,27 +13,22 @@ services:
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
       - ./nginx/.htpasswd:/etc/nginx/.htpasswd
-      - wordpress:/var/www/html
+      - ./wordpress:/var/www/html
     depends_on:
       - wordpress
 
+
   wordpress:
-    container_name: wordpress
-    image: wordpress:php8.1-fpm
+    build:
+      context: .
+      dockerfile: Dockerfile
     networks:
       - nginx_net
-    env_file:
-      - .env
-    environment:
-      - WORDPRESS_DB_HOST = ${WORDPRESS_DB_HOST}
-      - WORDPRESS_DB_USER = ${WORDPRESS_DB_USER}
-      - WORDPRESS_DB_PASSWORD = ${WORDPRESS_DB_PASSWORD}
-      - WORDPRESS_DB_NAME = ${WORDPRESS_DB_NAME}
     volumes:
-      - wordpress:/var/www/html
-      - ./php.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./config.wp/php.ini:/usr/local/etc/php/conf.d/custom.ini
     depends_on:
       - database
+
 
   database:
     container_name: database
@@ -59,5 +54,4 @@ networks:
 
 volumes:
   database:
-  wordpress:
 
