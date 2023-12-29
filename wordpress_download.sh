@@ -2,13 +2,8 @@
 
 wordpress_version="6.4.2"
 
-wordpress_url="https://wordpress.org/wordpress-$wordpress_version.zip"
+wordpress_url="https://wordpress.org/wordpress-$wordpress_version-ru_RU.zip"
 
 curl -o wordpress.zip https://wordpress.org/wordpress-$wordpress_version.zip && unzip wordpress.zip
 
 rm wordpress.zip
-
-
-
-
-

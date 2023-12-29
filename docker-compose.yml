@@ -8,11 +8,13 @@ services:
       - .env
     ports:
       - "80:80"
+      - "443:443"
     networks:
       - nginx_net
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
       - ./nginx/.htpasswd:/etc/nginx/.htpasswd
+      - ./nginx/cert:/etc/nginx/cert
       - ./wordpress:/var/www/html
     depends_on:
       - wordpress
