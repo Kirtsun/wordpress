@@ -23,9 +23,9 @@ jobs:
 
         script: | 
           touch deploy.txt
-          sudo docker stop nginx wordperess database
-          sudo docker rm nginx wordperess database
-          sudo docker rmi php:8.2-fpm mysql:8.0 nginx:1.25
+          sudo docker stop database nginx_wp wordpress
+          sudo docker rm database nginx_wp wordpress
+          sudo docker rmi wordpress_wordpress mysql:8.0 nginx:1.25
           sudo rm -r wordpress
           sudo git clone https://github.com/Kirtsun/wordpress
           cd wordpress
