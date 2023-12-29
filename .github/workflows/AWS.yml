@@ -27,7 +27,7 @@ jobs:
           sudo docker rm nginx wordperess database
           sudo docker rmi wp-wordpress mysql:8.0 nginx:1.25
           sudo rm -r wordpress
-          sudo git clone https://github.com/Kirtsun/wordpress/tree/main
+          sudo git clone https://github.com/Kirtsun/wordpress
           cd wordpress
           sudo chmod +x wordpress_download.sh
           sudo ./wordpress_download.sh
