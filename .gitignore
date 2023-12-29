@@ -46,7 +46,6 @@
 
 /node_modules
 yarn-error.log
-.htpasswd
 nginx/cert/certificate.crt
 nginx/cert/privateKey.key
 .hgignore

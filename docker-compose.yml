@@ -7,7 +7,7 @@ services:
     env_file:
       - .env
     ports:
-      - "${IP}:80:80"
+      - "80:80"
     networks:
       - nginx_net
     volumes:
@@ -40,10 +40,10 @@ services:
     networks:
       - nginx_net
     environment:
-      - MYSQL_DATABASE = ${MYSQL_DATABASE}
-      - MYSQL_USER = ${MYSQL_USER}
-      - MYSQL_PASSWORD = ${MYSQL_PASSWORD}
-      - MYSQL_RANDOM_ROOT_PASSWORD = ${MYSQL_PASSWORD}
+      - MYSQL_DATABASE = DB_NAME
+      - MYSQL_USER = USER
+      - MYSQL_PASSWORD = password
+      - MYSQL_RANDOM_ROOT_PASSWORD = 1
     volumes:
       - database:/var/lib/mysql
 
