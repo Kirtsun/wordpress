@@ -1,0 +1,35 @@
+name: Deploy on EC2
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
+    - name: login EC2
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.EC2_HOST }}  
+        username: ${{ secrets.EC2_USERNAME }}  
+        key: ${{ secrets.EC2_KEY }} 
+        port: ${{ secrets.EC2_PORT }}
+
+    script: | 
+      touch deploy.txt
+      sudo docker stop nginx wordperess database
+      sudo docker rm nginx wordperess database
+      sudo docker rmi wp-wordpress mysql:8.0 nginx:1.25
+      sudo rm -r wordpress
+      sudo git clone https://github.com/Kirtsun/wordpress/tree/main
+      cd wordpress
+      sudo chmod +x wordpress_download.sh
+      sudo ./wordpress_download.sh
+      sudo docker-compose up -d
+      echo "It works! date $(date "+%A %d-%b-%Y %H:%M:%S %Z")" >> deploy.txt
