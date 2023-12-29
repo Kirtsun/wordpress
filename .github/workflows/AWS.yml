@@ -25,7 +25,10 @@ jobs:
           touch deploy.txt
           sudo docker stop database nginx_wp wordpress
           sudo docker rm database nginx_wp wordpress
-          sudo docker rmi wordpress_wordpress mysql:8.0 nginx:1.25 php:8.2-fpm
+          sudo docker rmi wordpress_wordpress
+          sudo docker rmi mysql:8.0
+          sudo docker rmi nginx:1.25
+          sudo docker rmi php:8.2-fpm
           sudo rm -r wordpress
           sudo git clone https://github.com/Kirtsun/wordpress
           cd wordpress
