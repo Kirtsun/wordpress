@@ -36,4 +36,4 @@ jobs:
           sudo ./wordpress_download.sh
           sudo docker-compose up --build -d
           cd ..
-          echo "It works! date $(date "+%A %d-%b-%Y %H:%M:%S %Z")" >> deploy.txt
+          echo "It works! date $(TZ="Europe/Kiev"date "+%A %d-%b-%Y %H:%M:%S %Z")" >> deploy.txt
