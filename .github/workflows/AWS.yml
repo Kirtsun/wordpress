@@ -10,6 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Chekout
+      uses: actions/checkout@v3
+      run: |
+        sudo chmod +x wordpress_download.sh
+        sudo ./wordpress_download.sh
+        docker build -t kyrtsun/custom_wp .
+        docker push kyrtsun/custom_wp
+
     - name: login EC2
       uses: appleboy/ssh-action@v0.1.7
       with:
@@ -19,18 +27,12 @@ jobs:
         port: ${{ secrets.EC2_PORT }}
 
         script: | 
-          touch deploy.txt
           sudo docker stop database nginx_wp wordpress
           sudo docker rm database nginx_wp wordpress
-          sudo docker rmi wordpress_wordpress
-          sudo docker rmi mysql:8.0
-          sudo docker rmi nginx:1.25
-          sudo docker rmi php:8.2-fpm
+          sudo docker rmi kyrtsun/custom_wp mysql:8.0 nginx:1.25
           sudo rm -r wordpress
-          sudo git clone https://github.com/Kirtsun/wordpress
-          cd wordpress
-          sudo chmod +x wordpress_download.sh
-          sudo ./wordpress_download.sh
+          sudo mkdir wordpress && cd wordpress
+          touch deploy.txt
+          sudo svn export https://github.com/Kirtsun/wordpress/trunk/all_config/docker-compose.yml
           sudo docker-compose up --build -d
-          cd ..
           echo "It works! date $(TZ="Europe/Kiev"date "+%A %d-%b-%Y %H:%M:%S %Z")" >> deploy.txt
