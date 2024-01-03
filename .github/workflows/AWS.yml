@@ -40,7 +40,7 @@ jobs:
           sudo docker rmi kyrtsun/custom_wp mysql:8.0 nginx:1.25
           sudo rm -r wordpress
           sudo mkdir wordpress && cd wordpress
-          touch deploy.txt
+          sudo touch deploy.txt
           sudo svn export https://github.com/Kirtsun/wordpress/trunk/all_config/docker-compose.yml
           sudo docker-compose up --build -d
-          echo "It works! date $(TZ="Europe/Kiev"date "+%A %d-%b-%Y %H:%M:%S %Z")" >> deploy.txt
+          sudo echo "It works! date $(TZ="Europe/Kiev"date "+%A %d-%b-%Y %H:%M:%S %Z")" >> deploy.txt
