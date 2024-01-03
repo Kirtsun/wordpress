@@ -21,8 +21,8 @@ services:
   wordpress:
     container_name: wordpress
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: ../Dockerfile
     networks:
       - nginx_net
     volumes:
