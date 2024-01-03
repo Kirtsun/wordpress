@@ -11,7 +11,8 @@ jobs:
 
     steps:
     - name: Chekout
-    - uses: actions/checkout@v3
+      uses: actions/checkout@v3
+    - name: Make docker image
       run: |
         sudo chmod +x wordpress_download.sh
         sudo ./wordpress_download.sh
