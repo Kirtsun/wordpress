@@ -43,5 +43,5 @@ jobs:
           sudo touch deploy.txt
           sudo svn export https://github.com/Kirtsun/wordpress/trunk/all_config/docker-compose.yml
           sudo docker-compose up --build -d
-          echo "It works! $(date +'%A %d-%b-%Y %H:%M:%S %Z')" | sudo tee -a deploy.txt
+          echo echo "It works! $(TZ="Europe/Kiev" date "+%A %d-%b-%Y %H:%M:%S %Z")" | sudo tee -a deploy.txt
 
