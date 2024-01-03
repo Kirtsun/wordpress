@@ -14,7 +14,7 @@ jobs:
       uses: actions/checkout@v3
       
     - name: log docker hub
-      uses: docker/login-action@v1
+      uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_TOKEN }}
@@ -43,4 +43,4 @@ jobs:
           sudo touch deploy.txt
           sudo svn export https://github.com/Kirtsun/wordpress/trunk/all_config/docker-compose.yml
           sudo docker-compose up --build -d
-          sudo echo "It works! date $(TZ="Europe/Kiev"date "+%A %d-%b-%Y %H:%M:%S %Z")" >> deploy.txt
+          sudo echo "It works! date $(TZ="Europe/Kiev" date "+%A %d-%b-%Y %H:%M:%S %Z") >> deploy.txt
