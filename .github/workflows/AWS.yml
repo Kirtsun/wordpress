@@ -49,5 +49,7 @@ jobs:
             sudo mkdir wordpress && cd wordpress
             sudo svn export https://github.com/Kirtsun/wordpress/trunk/all_config/docker-compose.yml
             sudo docker-compose up -d
-            echo "It works! $(TZ="Europe/Kiev" date "+%A %d-%b-%Y %H:%M:%S %Z")" | sudo tee -a deploy.txt
+            wait
+            cd ..
+            echo "It works! $(TZ="Europe/Kiev" date "+%A %d-%b-%Y %H:%M:%S %Z")" | sudo tee -a deploy_wordpress.txt
 
