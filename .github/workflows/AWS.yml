@@ -5,7 +5,7 @@ on:
 
 jobs:
 
-  build:
+  create_image:
 
     runs-on: ubuntu-latest
 
@@ -26,10 +26,9 @@ jobs:
         docker build -t kyrtsun/custom_wp .
         docker push kyrtsun/custom_wp
 
-jobs:
 
-  build:
-
+  deploy:
+    needs: create_image
     runs-on: ubuntu-latest
     steps:
       - name: login EC2
