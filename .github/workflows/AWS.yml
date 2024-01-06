@@ -10,29 +10,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
+    - name: Chekout
       uses: actions/checkout@v3
+      
+    - name: log docker hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+        
+    - name: Make docker image
       run: |
         sudo chmod +x wordpress_download.sh
         sudo ./wordpress_download.sh
         docker build -t kyrtsun/custom_wp .
         docker push kyrtsun/custom_wp
 
-    - name: login EC2
-      uses: appleboy/ssh-action@v0.1.7
-      with:
-        host: ${{ secrets.EC2_HOST }}  
-        username: ${{ secrets.EC2_USERNAME }}  
-        key: ${{ secrets.EC2_KEY }} 
-        port: ${{ secrets.EC2_PORT }}
+jobs:
 
-        script: | 
-          sudo docker stop database nginx_wp wordpress
-          sudo docker rm database nginx_wp wordpress
-          sudo docker rmi kyrtsun/custom_wp mysql:8.0 nginx:1.25
-          sudo rm -r wordpress
-          sudo mkdir wordpress && cd wordpress
-          touch deploy.txt
-          sudo svn export https://github.com/Kirtsun/wordpress/trunk/all_config/docker-compose.yml
-          sudo docker-compose up -d
-          echo "It works! date $(TZ="Europe/Kiev" date "+%A %d-%b-%Y %H:%M:%S %Z")" >> deploy.txt
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: login EC2
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+
+          script: | 
+            sudo docker stop database nginx_wp wordpress
+            sudo docker rm database nginx_wp wordpress
+            sudo docker rmi kyrtsun/custom_wp mysql:8.0 nginx:1.25
+            sudo rm -r wordpress
+            sudo mkdir wordpress && cd wordpress
+            sudo touch deploy.txt
+            sudo svn export https://github.com/Kirtsun/wordpress/trunk/all_config/docker-compose.yml
+            sudo docker-compose up -d
+            echo "It works! $(TZ="Europe/Kiev" date "+%A %d-%b-%Y %H:%M:%S %Z")" | sudo tee -a deploy.txt
+
