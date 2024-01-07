@@ -32,9 +32,6 @@ jobs:
       - name: Chekout
         uses: actions/checkout@v3
 
-      - name: Delete nginx_conf file
-        run: ssh -i ${{ secrets.EC2_KEY }} -p ${{ secrets.EC2_PORT }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "sudo rm -r /home/ubuntu/nginx/nginx_wp"
-
       - name: copy file to server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -44,6 +41,7 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           source: "nginx_wp"
           target: /home/ubuntu/nginx
+          overwrite: true
 
       - name: copy wp docker file
         uses: appleboy/scp-action@v0.1.7
@@ -54,6 +52,7 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           source: "docker-compose.yml"
           target: /home/ubuntu/wordpress
+          overwrite: true
 
   deploy:
     needs: [create_image, add_file]
