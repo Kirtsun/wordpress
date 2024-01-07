@@ -39,7 +39,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           port: ${{ secrets.EC2_PORT }}
-          source: ./all_config/nginx_wp/*
+          source: "all_config/nginx_wp"
           target: /home/ubuntu/nginx/nginx_wp
 
       - name: copy wp docker file
@@ -49,7 +49,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           port: ${{ secrets.EC2_PORT }}
-          source: ./all_config/docker-compose.yml
+          source: "docker-compose.yml"
           target: /home/ubuntu/wordpress
 
   deploy:
@@ -70,9 +70,13 @@ jobs:
             sudo docker rmi kyrtsun/custom_wp mysql:8.0 nginx:1.25
             sudo docker volume rm wordpress
             sudo docker volume create wordpress
+            docker network create nginx_net
+            sudo docker touch deploy.txt
             cd wordpress
-            sudo touch deploy_wordpress.txt
             sudo docker-compose up -d
             wait
-            echo "It works! $(TZ="Europe/Kiev" date "+%A %d-%b-%Y %H:%M:%S %Z")" | sudo tee -a deploy_wordpress.txt
+            cd .. && cd nginx && docker-compose up -d
+            wait 
+            cd ..
+            echo "Wordpress WORK! $(TZ="Europe/Kiev" date "+%A %d-%b-%Y %H:%M:%S %Z")" | sudo tee -a deploy.txt
 
