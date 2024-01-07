@@ -8,8 +8,6 @@ COPY ./wordpress /var/www/html/
 
 COPY all_config/config.wp/wp-config.php /var/www/html/
 
-COPY all_config /var/www/html/all_config
-
 COPY all_config/config.wp/php.ini /usr/local/etc/php/conf.d/custom.ini
 
 EXPOSE 9000

@@ -1,33 +1,14 @@
 version: "3.8"
 
 services:
-  nginx:
-    container_name: nginx_wp
-    image: nginx:1.25
-    ports:
-      - "80:80"
-      - "443:443"
-    networks:
-      - nginx_net
-    volumes:
-      - nginx_conf:/etc/nginx/conf.d
-      - nginx_htpasswd:/etc/nginx/htpasswd
-      - nginx_cert:/etc/nginx/cert
-      - wordpress:/var/www/html
-    depends_on:
-      - wordpress
-
-
   wordpress:
     container_name: wordpress
     image: kyrtsun/custom_wp
     networks:
       - nginx_net
+      - database
     volumes:
       - wordpress:/var/www/html
-      - nginx_cert:/var/www/html/all_config/nginx/cert
-      - nginx_conf:/var/www/html/all_config/nginx/nginx.conf
-      - nginx_htpasswd:/var/www/html/all_config/nginx/htpasswd
     depends_on:
       - database
 
@@ -38,7 +19,7 @@ services:
     expose:
       - "3306"
     networks:
-      - nginx_net
+      - database
     environment:
       - MYSQL_DATABASE=DB_NAME
       - MYSQL_USER=USER
@@ -50,11 +31,11 @@ services:
 
 
 networks:
-  nginx_net:
+  database:
+  nginx_wp_net:
+    external: true
 
 volumes:
   database:
   wordpress:
-  nginx_cert:
-  nginx_conf:
-  nginx_htpasswd:
+    external: true
