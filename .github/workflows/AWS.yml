@@ -53,7 +53,7 @@ jobs:
           target: /home/ubuntu/wordpress
 
   deploy:
-    needs: create_image
+    needs: [create_image, add_file]
     runs-on: ubuntu-latest
     steps:
       - name: login EC2
