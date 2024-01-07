@@ -5,7 +5,7 @@ services:
     container_name: wordpress
     image: kyrtsun/custom_wp
     networks:
-      - nginx_net
+      - nginx_wp_net
       - database
     volumes:
       - wordpress:/var/www/html

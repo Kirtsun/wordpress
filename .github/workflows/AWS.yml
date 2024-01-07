@@ -65,8 +65,8 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
 
           script: | 
-            sudo docker stop database wordpress nginx
-            sudo docker rm database wordpress nginx
+            sudo docker stop database wordpress nginx_nginx_1
+            sudo docker rm database wordpress nginx_nginx_1
             sudo docker rmi kyrtsun/custom_wp mysql:8.0 nginx:1.25
             sudo docker volume rm wordpress
             sudo docker volume create wordpress
