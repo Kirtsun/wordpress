@@ -39,8 +39,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           port: ${{ secrets.EC2_PORT }}
-          source: "all_config/nginx_wp"
-          target: /home/ubuntu/nginx/nginx_wp
+          source: "nginx_wp"
+          target: /home/ubuntu/nginx
 
       - name: copy wp docker file
         uses: appleboy/scp-action@v0.1.7
@@ -70,8 +70,8 @@ jobs:
             sudo docker rmi kyrtsun/custom_wp mysql:8.0 nginx:1.25
             sudo docker volume rm wordpress
             sudo docker volume create wordpress
-            docker network create nginx_net
-            sudo docker touch deploy.txt
+            docker network create nginx_wp_net
+            sudo touch deploy.txt
             cd wordpress
             sudo docker-compose up -d
             wait
