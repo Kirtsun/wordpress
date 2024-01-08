@@ -3,7 +3,9 @@ version: "3.8"
 services:
   wordpress:
     container_name: wordpress
-    image: kyrtsun/custom_wp
+    env_file:
+      - ./.env
+    image: kyrtsun/custom_wp:${TAG}
     restart: unless-stopped
     networks:
       - nginx_wp_net

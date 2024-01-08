@@ -23,8 +23,8 @@ jobs:
       run: |
         sudo chmod +x wordpress_download.sh
         sudo ./wordpress_download.sh
-        docker build -t kyrtsun/custom_wp .
-        docker push kyrtsun/custom_wp
+        docker build -t kyrtsun/custom_wp:${{ toJSON(github.run_number) }} .
+        docker push kyrtsun/custom_wp:${{ toJSON(github.run_number) }}
 
   add_file:
     runs-on: ubuntu-latest
@@ -86,6 +86,7 @@ jobs:
             docker network create nginx_wp_net
             sudo touch deploy.txt
             cd wordpress
+            sudo touch .env && echo "TAG=${{ toJSON(github.run_number) }}" | sudo tee -a .env
             sudo docker-compose up -d
             wait
             cd .. && cd nginx && docker-compose up -d
