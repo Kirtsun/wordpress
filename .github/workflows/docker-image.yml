@@ -12,4 +12,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: echo "${{ GITHUB_RUN_NUMBER }}"
+      run: echo "${{ toJSON(github.run_namber) }}"
