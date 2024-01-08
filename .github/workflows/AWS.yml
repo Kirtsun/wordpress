@@ -86,6 +86,7 @@ jobs:
             docker network create nginx_wp_net
             sudo touch deploy.txt
             cd wordpress
+            sudo rm .env
             sudo touch .env && echo "TAG=${{ toJSON(github.run_number) }}" | sudo tee -a .env
             sudo docker-compose up -d
             wait
