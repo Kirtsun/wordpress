@@ -1,0 +1,54 @@
+version: "3.8"
+
+
+services:
+  wordpress:
+    image: kyrtsun/custom_wp:49
+    restart: unless-stopped
+    networks:
+      - nginx_wp_net
+      - database
+    ports:
+      - 9000:9000
+    volumes:
+      - wordpress:/var/www/html
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: any
+        delay: 5s
+    depends_on:
+      - database
+
+
+  database:
+    image: mysql:8.0
+    restart: unless-stopped
+    networks:
+      - database
+    environment:
+      - MYSQL_DATABASE=DB_NAME
+      - MYSQL_USER=USER
+      - MYSQL_PASSWORD=password
+      - MYSQL_RANDOM_ROOT_PASSWORD=1
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: any
+        delay: 5s
+    volumes:
+      - wp_database:/var/lib/mysql
+
+
+
+networks:
+  database:
+    driver: overlay
+  nginx_wp_net:
+    external: true
+
+volumes:
+  wp_database:
+    external: true
+  wordpress:
+    external: true
