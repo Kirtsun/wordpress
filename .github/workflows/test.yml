@@ -24,6 +24,8 @@ jobs:
   
       - name: Make Docker Image
         run: |
+          sudo chmod +x wordpress_download.sh
+          sudo ./wordpress_download.sh
           docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/test:${{ toJSON(github.run_number) }} -f Dockerfile .
   
       - name: Push Docker Image
