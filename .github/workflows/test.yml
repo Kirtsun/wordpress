@@ -48,8 +48,10 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
+            echo '${{ secrets.GCP_SA_KEY }}' > gcp-key.json
+            gcloud auth activate-service-account --key-file=gcp-key.json
             sudo docker pull gcr.io/${{ secrets.GCP_PROJECT_ID }}/test:6
+            sudo rm gcp-key.json
 
 
 
