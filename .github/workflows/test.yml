@@ -50,8 +50,9 @@ jobs:
           script: |
             echo '${{ secrets.GCP_SA_KEY }}' > gcp-key.json
             gcloud auth activate-service-account test2-518@sandbox-devops-training.iam.gserviceaccount.com --key-file=gcp-key.json
-            gcloud auth configure-docker -q
+            sudo gcloud auth configure-docker -q
             sudo docker pull gcr.io/${{ secrets.GCP_PROJECT_ID }}/test:6
+            sudo rm gcp-key.json
 
 
 
