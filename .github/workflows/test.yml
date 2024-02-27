@@ -69,7 +69,7 @@ jobs:
         key: ${{ secrets.KEY }}
         port: ${{ secrets.PORT }}
         source: "nginx_wp/cert/certificate.crt"
-        target: "/home/oleh_kyrtsun_litslink_com/aifa"
+        target: "/home/oleh_kyrtsun_litslink_com/aifa/certificate.crt"
         overwrite: true
 
 
