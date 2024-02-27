@@ -32,4 +32,4 @@ jobs:
           docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/test:5 -f Dockerfile .
   
       - name: Push Docker Image
-        run: docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/aifa:5
+        run: docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/test:5
