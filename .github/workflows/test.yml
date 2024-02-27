@@ -29,7 +29,32 @@ jobs:
         run: |
           sudo chmod +x wordpress_download.sh
           sudo ./wordpress_download.sh
-          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/test:5 -f Dockerfile .
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/test:6 -f Dockerfile .
   
       - name: Push Docker Image
-        run: docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/test:5
+        run: docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/test:6
+
+
+
+
+  pull:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            gcloud auth activate-service-account --key-file=${{ secrets.GCP_SA_KEY }}
+            sudo docker pull gcr.io/${{ secrets.GCP_PROJECT_ID }}/test:6
+
+
+
+
+
+
+
+    
