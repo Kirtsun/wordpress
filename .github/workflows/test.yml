@@ -30,7 +30,7 @@ jobs:
           kubectl create secret docker-registry gcr-json-key2 \
             --docker-server=gcr.io \
             --docker-username=_json_key \
-            --docker-password=$(cat gcp_sa_key.json) \
+            --docker-password="$(cat gcp_sa_key.json)" \
             --docker-email=oleh.kyrtsun@litslink.com
 
 
