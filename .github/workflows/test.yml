@@ -11,7 +11,8 @@ jobs:
     steps: 
       - name: echo
         run: |
-          echo ${{ secrets.GCP_SA_KEY }} > txt.txt
+          base64 ${{ secrets.GCP_SA_KEY }} -o txt.txt
+          # echo ${{ secrets.GCP_SA_KEY }} > txt.txt
           base64 --decode txt.txt > ps.json
           cat ps.json
     
