@@ -9,14 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps: 
-      - name: echo
-        run: |
-          # echo "${{ secrets.GCP_SA_KEY }}" | base64 > txt.txt
-          echo -e "${{ secrets.GCP_SA_KEY }}" > ps.json
-          # base64 --decode txt.txt > ps.json
-          cat ps.json
-      # - name: gcp key to json
-      #   run: echo ${{ secrets.GCP_SA_KEY_64 }} > gcp_sa_key.txt && base64 --decode gcp_sa_key.txt > gcp_sa_key.json
+          
+      - name: gcp key to json
+        run: echo ${{ secrets.GCP_SA_KEY_64 }} > gcp_sa_key.txt && base64 --decode gcp_sa_key.txt > gcp_sa_key.json
 
       - name: Google auth
         uses: google-github-actions/auth@v2
@@ -35,7 +30,7 @@ jobs:
           kubectl create secret docker-registry gcr-json-key2 \
             --docker-server=gcr.io \
             --docker-username=_json_key \
-            --docker-password=$(cat ps.json) \
+            --docker-password=$(cat gcp_sa_key.json) \
             --docker-email=oleh.kyrtsun@litslink.com
 
 
