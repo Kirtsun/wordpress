@@ -15,7 +15,13 @@ jobs:
           # echo ${{ secrets.GCP_SA_KEY }} > txt.txt
           base64 --decode txt.txt > ps.json
           cat ps.json
-    
+      - name: gcp key to json
+        run: echo ${{ secrets.GCP_SA_KEY_64 }} > gcp_sa_key.txt && base64 --decode gcp_sa_key.txt > gcp_sa_key.json
+
+      - name: Google auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: cat gcp_sa_key.json
   
 
 
