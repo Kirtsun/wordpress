@@ -16,22 +16,22 @@ jobs:
       - name: Google auth
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: "$(cat gcp_sa_key.json)"
-      # - id: get-credentials
-      #   uses: google-github-actions/get-gke-credentials@v2
-      #   with:
-      #     cluster_name: aifa-spot-agent
-      #     location: us-central1
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - id: get-credentials
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          cluster_name: aifa-spot-agent
+          location: us-central1
   
-      # - name: create secret for gcr
-      #   run: |
+      - name: create secret for gcr
+        run: |
           
-      #     kubectl delete secret gcr-json-key2 --ignore-not-found && \
-      #     kubectl create secret docker-registry gcr-json-key2 \
-      #       --docker-server=gcr.io \
-      #       --docker-username=_json_key \
-      #       --docker-password="$(cat gcp_sa_key.json)" \
-      #       --docker-email=oleh.kyrtsun@litslink.com
+          kubectl delete secret gcr-json-key2 --ignore-not-found && \
+          kubectl create secret docker-registry gcr-json-key2 \
+            --docker-server=gcr.io \
+            --docker-username=_json_key \
+            --docker-password="$(cat gcp_sa_key.json)" \
+            --docker-email=oleh.kyrtsun@litslink.com
    
 
 
